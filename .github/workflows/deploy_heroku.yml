@@ -11,8 +11,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.8.8
+      - name: deploy
+        id: deploy
+        uses: akhileshns/heroku-deploy@v3.8.8
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "nuuuuuuuuuuu"
           heroku_email: ${{secrets.HEROKU_EMAIL}}
+      - name: sccess_notify
+        if: steps.deploy.outcome == 'success'
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "channel": "#20230909-rust-team",
+              "text": "デプロイDONEくま"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: failure_notify
+        if: steps.deploy.outcome != 'success'
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "channel": "#20230909-rust-team",
+              "text": "デプロイDONEくま"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
