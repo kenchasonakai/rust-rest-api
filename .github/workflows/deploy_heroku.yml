@@ -36,7 +36,7 @@ jobs:
           payload: |
             {
               "channel": "#20230909-rust-team",
-              "text": "デプロイDONEくま"
+              "text": "デプロイ失敗くま"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
